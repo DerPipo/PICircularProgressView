@@ -12,7 +12,7 @@
 
 @property (nonatomic) double progress;
 
-// Y U NO ACCEPT BOOL FOR UIAPPEARANCE, XCODE??
+// Should be BOOLs, but iOS doesn't allow BOOL as UI_APPEARANCE_SELECTOR
 @property (nonatomic) NSInteger showText UI_APPEARANCE_SELECTOR;
 @property (nonatomic) NSInteger roundedHead UI_APPEARANCE_SELECTOR;
 @property (nonatomic) NSInteger showShadow UI_APPEARANCE_SELECTOR;
