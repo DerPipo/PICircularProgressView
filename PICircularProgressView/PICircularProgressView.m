@@ -77,7 +77,7 @@
                                                                    radius:radius - circleWidth
                                                                startAngle:2*M_PI
                                                                  endAngle:0.0
-                                                                clockwise:YES];
+                                                                clockwise:NO];
         
         [_innerBackgroundColor setFill];
         
@@ -91,12 +91,12 @@
                                                               radius:radius
                                                           startAngle:0.0
                                                             endAngle:2*M_PI
-                                                           clockwise:NO];
+                                                           clockwise:YES];
         [outerCircle addArcWithCenter:center
                                radius:radius - circleWidth
                            startAngle:2*M_PI
                              endAngle:0.0
-                            clockwise:YES];
+                            clockwise:NO];
         
         [_outerBackgroundColor setFill];
         
