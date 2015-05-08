@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, PICircularProgressStringFormat) {
+    PICircularProgressStringFormatPlain,
+    PICircularProgressStringFormatPercent
+};
+
 @interface PICircularProgressView : UIView
 
 @property (nonatomic) double progress;
+@property (assign, nonatomic) PICircularProgressStringFormat stringFormat;
 
 // Should be BOOLs, but iOS doesn't allow BOOL as UI_APPEARANCE_SELECTOR
 @property (nonatomic) NSInteger showText UI_APPEARANCE_SELECTOR;
