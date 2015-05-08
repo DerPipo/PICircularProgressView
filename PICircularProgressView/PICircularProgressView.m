@@ -153,7 +153,16 @@
 
         [_textColor setFill];
         
-        [progressString drawAtPoint:origin forWidth:expectedSize.width withFont:font lineBreakMode:NSLineBreakByWordWrapping];
+        if ([progressString respondsToSelector:@selector(drawAtPoint:withAttributes:)]) {
+            [progressString drawAtPoint:origin withAttributes:@{NSFontAttributeName:font}];
+        } else {
+            // pre-iOS7.0
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [progressString drawAtPoint:origin forWidth:expectedSize.width withFont:font lineBreakMode:NSLineBreakByWordWrapping];
+            #pragma clang diagnostic pop
+        }
+        
     }
     
     UIBezierPath *path = [UIBezierPath bezierPath];
