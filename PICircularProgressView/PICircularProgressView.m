@@ -131,24 +131,41 @@
         CGFloat diagonal = 2 * (radius - circleWidth);
         CGFloat edge = diagonal / sqrtf(2);
         
-        CGFloat actualFontSize;
         CGSize maximumSize = CGSizeMake(edge, edge);
-        CGSize expectedSize = [progressString sizeWithFont:font
-                                               minFontSize:5.0
-                                            actualFontSize:&actualFontSize
-                                                  forWidth:maximumSize.width
-                                             lineBreakMode:NSLineBreakByWordWrapping];
+        CGSize expectedSize = CGSizeZero;
         
-        if (actualFontSize < fontSize)
-        {
-            font = [font fontWithSize:actualFontSize];
+        if ([progressString respondsToSelector:@selector(sizeWithAttributes:)]) {
+            expectedSize = [progressString sizeWithAttributes:@{NSFontAttributeName:font}];
+            if (expectedSize.width > maximumSize.width) {
+                CGFloat ratio = maximumSize.width / expectedSize.width;
+                CGFloat fontSize = font.pointSize * ratio;
+                font = [font fontWithSize:fontSize];
+                expectedSize = [progressString sizeWithAttributes:@{NSFontAttributeName:font}];
+            }
+        } else {
+            // pre-iOS7.0
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            CGFloat actualFontSize;
+
             expectedSize = [progressString sizeWithFont:font
-                                            minFontSize:5.0
-                                         actualFontSize:&actualFontSize
-                                               forWidth:maximumSize.width
-                                          lineBreakMode:NSLineBreakByWordWrapping];
+                                                   minFontSize:5.0
+                                                actualFontSize:&actualFontSize
+                                                      forWidth:maximumSize.width
+                                                 lineBreakMode:NSLineBreakByWordWrapping];
+            
+            if (actualFontSize < fontSize)
+            {
+                font = [font fontWithSize:actualFontSize];
+                expectedSize = [progressString sizeWithFont:font
+                                                minFontSize:5.0
+                                             actualFontSize:&actualFontSize
+                                                   forWidth:maximumSize.width
+                                              lineBreakMode:NSLineBreakByWordWrapping];
+            }
+            #pragma clang diagnostic pop
         }
-        
+
         CGPoint origin = CGPointMake(center.x - expectedSize.width / 2.0, center.y - expectedSize.height / 2.0);
 
         [_textColor setFill];
