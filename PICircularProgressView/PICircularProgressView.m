@@ -123,7 +123,17 @@
     
     if (_showText && _textColor)
     {
-        NSString *progressString = [NSString stringWithFormat:@"%.0f", _progress * 100.0];
+        NSString *progressString;
+        switch (_stringFormat) {
+            case PICircularProgressStringFormatPercent: {
+                progressString = [NSString stringWithFormat:@"%.0f%%", _progress * 100.0];
+                break;
+            }
+            default: {
+                progressString = [NSString stringWithFormat:@"%.0f", _progress * 100.0];
+                break;
+            }
+        }
         
         CGFloat fontSize = radius;
         UIFont *font = [_font fontWithSize:fontSize];
